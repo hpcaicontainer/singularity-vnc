@@ -35,7 +35,7 @@ for i in $*;do
     fi
 done
 echo "VNC_PORT $VNC_PORT "
-echo "VNC_PW $VNC_PW "
+echo "VNC_PW *** "
 echo "NO_VNC_PORT $NO_VNC_PORT "
 
 VNC_ROOT=$HOME/vnc
@@ -85,8 +85,7 @@ if [ $VNC_PORT ]; then
     vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &> $LOG_FILE_DIR/${LOG_FILE_PREFIX}_vnc_startup.log
     
     echo -e "start window manager\n..."
-    CURRENTDIR=`pwd`
-    $CURRENTDIR/wm_startup.sh &> $LOG_FILE_DIR/${LOG_FILE_PREFIX}_wm_startup.log
+    /opt/wm_startup.sh &> $LOG_FILE_DIR/${LOG_FILE_PREFIX}_wm_startup.log
 
     echo -e "\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=> connect via VNC viewer with $VNC_IP:$VNC_PORT"
 else
