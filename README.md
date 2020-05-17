@@ -1,6 +1,6 @@
 # Singularity VNC Container
 
-This singularity vnc container is originally from the [Consol Docker container](https://github.com/ConSol/docker-headless-vnc-container) , and change it so that it can be used in multi-tenant HPC  and AI environment.
+This singularity vnc containers are originally from  [Consol Docker container](https://github.com/ConSol/docker-headless-vnc-container) , and change it so that it can be used in multi-tenant HPC  and AI environment.
 
 
 
@@ -13,17 +13,17 @@ The container image is installed with the following components:
   * Mozilla Firefox
   
 
-## Usage
-- git clone this project
+## Usage 
+- Git clone this project
 
-- build container
+- Build container
 
   ```
   cd singularityvnc
   singularity build centosvnc.simg  centos-xfce-vnc.sif
   ```
 
-- singularity shell to check the help
+- Singularity shell to check the help
 
   ```
   singularity shell centosvnc.simg 
@@ -38,7 +38,7 @@ The container image is installed with the following components:
   
   ```
 
-- launch VNC
+- Launch VNC
 
       Singularity centosvnc.simg:/opt> ./vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
       VNC_PORT 5901
@@ -60,8 +60,33 @@ The container image is installed with the following components:
       VNCSERVER started on DISPLAY= :1
               => connect via VNC viewer with 10.240.208.106:5901
 
-* access through vncviewer
+* Access through vncviewer
 
   ![VNC Desktop access via VNC Viewer](./vnc.png)
 
   Note: If you want to **access the vnc through web browser**,  when you run ./vnc_startup.sh, you should provide the **NO_VNC_PORT:6901**.
+
+## Usage with Scheduler
+
+This will show how to use the container with HPC/AI scheduler, the below will take the scheduler slurm as example.
+
+- Create one slurm job file, such as job.slurm, the below is the content:
+
+  ```
+  #!/bin/bash
+  #SBATCH --job-name='test'
+  #SBATCH --partition=compute
+  #SBATCH --nodes=1
+  #SBATCH --mincpus=8
+  
+  singularity exec /home/zcf/centosvnc.simg /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+  ```
+
+
+- Submit job:
+
+  ```
+  sbatch job.slurm
+  ```
+
+  
