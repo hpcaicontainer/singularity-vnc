@@ -1,6 +1,6 @@
 # Singularity VNC Container
 
-This singularity vnc container is based on the Docker container https://github.com/ConSol/docker-headless-vnc-container, and change it so that it can be used in multi-tenant HPC  and AI environment.
+This singularity vnc container is originally from the [Consol Docker container](https://github.com/ConSol/docker-headless-vnc-container) , and change it so that it can be used in multi-tenant HPC  and AI environment.
 
 
 
@@ -64,4 +64,4 @@ The container image is installed with the following components:
 
   ![VNC Desktop access via VNC Viewer](./vnc.png)
 
-  If you want to access the vnc through web browser,  when you run ./vnc_startup.sh, you should provide the NO_VNC_PORT:6901.
+  Note: If you want to **access the vnc through web browser**,  when you run ./vnc_startup.sh, you should provide the **NO_VNC_PORT:6901**.
