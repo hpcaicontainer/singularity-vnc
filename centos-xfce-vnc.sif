@@ -1,0 +1,63 @@
+# This file is used to build an headles vnc image based on Centos
+Bootstrap: docker
+From: centos:7
+
+%environment
+    export LANG='en_US.UTF-8' 
+    export LANGUAGE='en_US:en' 
+    export LC_ALL='en_US.UTF-8'
+    export DEFAULTHOME=/headless 
+    export TERM=xterm 
+    export NO_VNC_DEFAULT_HOME=/headless/noVNC 
+    export VNC_COL_DEPTH=24 
+    export VNC_RESOLUTION=1280x1024 
+    export VNC_PW=vncpassword 
+    export VNC_VIEW_ONLY=false
+
+%labels
+    MAINTAINER "chaofeng, zhcf_oak@163.com"
+
+%files
+    ./src/common/xfce/. /headless/
+    ./src/common/scripts/vnc_startup.sh /opt/
+    ./src/common/scripts/wm_startup.sh /opt/
+    ./src/common/install/. /headless/install/
+    ./src/centos/install/. /headless/install/
+    
+%post
+
+export LANG='en_US.UTF-8' 
+export LANGUAGE='en_US:en' 
+export LC_ALL='en_US.UTF-8'
+export DEFAULTHOME=/headless 
+export TERM=xterm 
+export NO_VNC_DEFAULT_HOME=/headless/noVNC 
+export VNC_COL_DEPTH=24 
+export VNC_RESOLUTION=1280x1024 
+export VNC_PW=vncpassword 
+export VNC_VIEW_ONLY=false
+
+### Add all install scripts for further steps
+ls $DEFAULTHOME/install
+find $DEFAULTHOME/install -name '*.sh' -exec chmod a+x {} +
+
+### Install some common tools
+ls $DEFAULTHOME/install
+$DEFAULTHOME/install/tools.sh
+
+### Install xvnc-server & noVNC - HTML5 based VNC viewer
+$DEFAULTHOME/install/tigervnc.sh
+$DEFAULTHOME/install/no_vnc.sh
+
+### Install firefox and chrome browser
+$DEFAULTHOME/install/firefox.sh
+
+### Install xfce UI
+$DEFAULTHOME/install/xfce_ui.sh
+
+### configure startup
+chmod -R 777 $DEFAULTHOME
+rm -rf $DEFAULTHOME/install/
+chmod -R 777 /opt/vnc_startup.sh
+chmod -R 777 /opt/wm_startup.sh
+

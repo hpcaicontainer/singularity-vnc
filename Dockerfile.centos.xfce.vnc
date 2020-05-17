@@ -1,0 +1,51 @@
+# This Dockerfile is used to build an headles vnc image based on Centos
+
+FROM centos:7
+
+MAINTAINER Chaofeng "zhcf_oak@163.com, it is originally from simon.hofmann@consol.de"
+ENV REFRESHED_AT 2020-05-17
+
+LABEL io.k8s.description="Headless VNC Container with Xfce window manager, firefox and chromium" \
+      io.k8s.display-name="Headless VNC Container based on Centos" \
+      io.openshift.expose-services="6901:http,5901:xvnc" \
+      io.openshift.tags="vnc, centos, xfce" \
+      io.openshift.non-scalable=true
+
+### Envrionment config
+ENV DEFAULTHOME=/headless \
+    TERM=xterm \
+    NO_VNC_DEFAULT_HOME=/headless/noVNC \
+    VNC_COL_DEPTH=24 \
+    VNC_RESOLUTION=1280x1024 \
+    VNC_PW=vncpassword \
+    VNC_VIEW_ONLY=false
+WORKDIR $DEFAULTHOME
+
+### Add all install scripts for further steps
+ADD ./src/common/install/ $DEFAULTHOME/install/
+ADD ./src/centos/install/ $DEFAULTHOME/install/
+RUN find $DEFAULTHOME/install -name '*.sh' -exec chmod a+x {} +
+
+### Install some common tools
+RUN ls $DEFAULTHOME/install/
+RUN $DEFAULTHOME/install/tools.sh
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+### Install xvnc-server & noVNC - HTML5 based VNC viewer
+RUN $DEFAULTHOME/install/tigervnc.sh
+RUN $DEFAULTHOME/install/no_vnc.sh
+
+### Install firefox and chrome browser
+RUN $DEFAULTHOME/install/firefox.sh
+
+### Install xfce UI
+RUN $DEFAULTHOME/install/xfce_ui.sh
+ADD ./src/common/xfce/ $DEFAULTHOME/
+
+### configure startup
+ADD ./src/common/scripts/vnc_startup.sh /opt
+ADD ./src/common/scripts/wm_startup.sh /opt
+RUN chmod -R 777 $DEFAULTHOME
+RUN rm -rf $DEFAULTHOME/install
+RUN chmod -R 777 /opt/vnc_startup.sh
+RUN chmod -R 777 /opt/wm_startup.sh
