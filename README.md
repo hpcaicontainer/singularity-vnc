@@ -91,5 +91,6 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   sbatch job.slurm
   ```
   After submitting job, the job output will show which server the vnc is running on, then you can access that node with the vnc_port set in the job file. 
+  
   If you want to use the pycharm in the vnc, you need download the pycharm package from pycharm website, and put the pycharm package under user's home directory /home/zcf, in the vnc, you will be able to see the pycharm package and use it. 
   
