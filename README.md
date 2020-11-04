@@ -71,6 +71,7 @@ The container image is installed with the following components:
 This will show how to use the container with HPC/AI scheduler, the below will take the scheduler slurm as example.
 
 - Create one slurm job file, such as job.slurm, the below is the content:
+ 
  The below example assuming the current use is zcf, the home directory of user zcf is /home/zcf/.
   ```
   #!/bin/bash
