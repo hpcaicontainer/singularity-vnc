@@ -20,15 +20,15 @@ The container image is installed with the following components:
 
   ```
   cd singularityvnc
-  singularity build centosvnc.simg  centos-xfce-vnc.sif
+  singularity build centosvnc.sif  centos-xfce-vnc.simg
   ```
 
 - Singularity shell to check the help
 
   ```
-  singularity shell centosvnc.simg 
-  Singularity centosvnc.simg:~> cd /opt
-  Singularity centosvnc.simg:/opt> ./vnc_startup.sh -h
+  singularity shell centosvnc.sif 
+  Singularity centosvnc.sif:~> cd /opt
+  Singularity centosvnc.sif:/opt> ./vnc_startup.sh -h
   
   USAGE: ./vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd NO_VNC_PORT:6901
   
@@ -40,9 +40,9 @@ The container image is installed with the following components:
 
 - Launch VNC
 
-      Singularity centosvnc.simg:/opt> ./vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
-      VNC_PORT 5901
-      VNC_PW ***
+      Singularity centosvnc.sif:/opt> ./vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+      VNC_PORT:5901
+      VNC_PW:***
       NO_VNC_PORT
       the vnc scripts files are already existing
       
@@ -79,7 +79,7 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   #SBATCH --nodes=1
   #SBATCH --mincpus=8
   
-  singularity exec /home/zcf/centosvnc.simg /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+  singularity exec /home/zcf/centosvnc.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
   ```
 
 

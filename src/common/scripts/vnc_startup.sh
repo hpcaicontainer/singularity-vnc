@@ -5,11 +5,10 @@ set -e
 ## print out help
 help (){
 echo "
-USAGE: ./opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd NO_VNC_PORT:6901
+USAGE: /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd NO_VNC_PORT:6901
 
-VNC_PORT is must have.
-VNC_PW is needed when you first time to run a vnc or you want to overwrite the previous settting. 
-NO_VNC_PORT should be provided when you need use novnc.
+VNC_PORT is must have.VNC_PW is needed when you first time to run a vnc or you want to overwrite the previous settting. 
+NO_VNC_PORT only needed when you need use novnc.
 "
 }
 if [[ $1 =~ -h|--help ]]; then
@@ -34,9 +33,9 @@ for i in $*;do
         NO_VNC_PORT=$str2
     fi
 done
-echo "VNC_PORT $VNC_PORT "
-echo "VNC_PW *** "
-echo "NO_VNC_PORT $NO_VNC_PORT "
+echo "VNC_PORT:$VNC_PORT "
+echo "VNC_PW:*** "
+echo "NO_VNC_PORT:$NO_VNC_PORT "
 
 VNC_ROOT=$HOME/vnc
 mkdir -p "$VNC_ROOT"

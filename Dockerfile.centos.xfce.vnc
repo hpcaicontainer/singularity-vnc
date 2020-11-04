@@ -49,3 +49,7 @@ RUN chmod -R 777 $DEFAULTHOME
 RUN rm -rf $DEFAULTHOME/install
 RUN chmod -R 777 /opt/vnc_startup.sh
 RUN chmod -R 777 /opt/wm_startup.sh
+### add pycharm
+ADD ./pycharm-community-2019.1.3 /opt
+RUN chmod -R 777 /opt/pycharm-community-2019.1.3
+
