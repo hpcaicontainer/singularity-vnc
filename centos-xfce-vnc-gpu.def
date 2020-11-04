@@ -2,6 +2,7 @@
 Bootstrap: docker
 From: nvidia/cuda:10.1-cudnn7-devel-centos7
 
+
 %environment
     export LANG='en_US.UTF-8' 
     export LANGUAGE='en_US:en' 
@@ -36,6 +37,9 @@ export VNC_COL_DEPTH=24
 export VNC_RESOLUTION=1280x1024 
 export VNC_PW=vncpassword 
 export VNC_VIEW_ONLY=false
+
+rm -rf /etc/yum.repos.d/cuda*
+rm -rf /etc/yum.repos.d/nvidia*
 
 ### Add all install scripts for further steps
 ls $DEFAULTHOME/install
