@@ -72,7 +72,7 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
 
 - Create one slurm job file, such as job.slurm, the below is the content:
  
-  the below example assuming the current use is zcf, the home directory of user zcf is /home/zcf/, if you want to use the pycharm in the vnc, you need download the pycharm package from pycharm website, and put the pycharm package under user's home directory /home/zcf, then in the vnc, you will be able to see the pycharm package and use it 
+  the below example assuming the current use is zcf, the home directory of user zcf is /home/zcf/, if you want to use the pycharm in the vnc, you need download the pycharm package from pycharm website, and put the pycharm package under user's home directory /home/zcf, in the vnc, you will be able to see the pycharm package and use it 
   ```
   #!/bin/bash
   #SBATCH --job-name='test'
@@ -89,5 +89,5 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   ```
   sbatch job.slurm
   ```
-If you want to use vnc
+  After submitting job, the job output will show which server the vnc is running on, then you can access that node with the vnc_port set in the job file. 
   
