@@ -7,7 +7,8 @@ help (){
 echo "
 USAGE: /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd NO_VNC_PORT:6901
 
-VNC_PORT is must have.VNC_PW is needed when you first time to run a vnc or you want to overwrite the previous settting. 
+VNC_PORT is must have.
+VNC_PW is needed when you first time to run a vnc or you want to overwrite the previous settting. 
 NO_VNC_PORT only needed when you need use novnc.
 "
 }

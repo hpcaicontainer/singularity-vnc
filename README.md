@@ -20,9 +20,18 @@ The container image is installed with the following components:
 
   ```
   cd singularityvnc
-  singularity build centosvnc.sif  centos-xfce-vnc.simg
+  singularity build centosvnc.sif  centos-xfce-vnc.def
   ```
-
+  If you want to build the vnc container which can support gpu
+  ```
+  cd singularityvnc
+  singularity build centosvncgpu.sif  centos-xfce-vnc-gpu.def
+  ```
+  And when you use the gpu container, you should add --nv.
+  ```
+  singularity exec --nv centosvncgpu.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+  ```
+  
 - Singularity shell to check the help
 
   ```
@@ -70,8 +79,11 @@ The container image is installed with the following components:
 
 This will show how to use the container with HPC/AI scheduler, the below will take the scheduler slurm as example.
 
-- Create one slurm job file, such as job.slurm, the below is the content:
-
+- Create one slurm job file, such as job.slurm
+ 
+  The below example assuming the current use is zcf, the home directory of user zcf is /home/zcf/.
+  
+  For CPU VNC:
   ```
   #!/bin/bash
   #SBATCH --job-name='test'
@@ -81,6 +93,18 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   
   singularity exec /home/zcf/centosvnc.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
   ```
+  
+  For GPU VNC:
+  ```
+  #!/bin/bash
+  #SBATCH --job-name='test'
+  #SBATCH --partition=compute
+  #SBATCH --nodes=1
+  #SBATCH --mincpus=8
+  #SBATCH --gres=gpu:1
+  
+  singularity exec --nv /home/zcf/centosvncgpu.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+  ```
 
 
 - Submit job:
@@ -88,5 +112,7 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   ```
   sbatch job.slurm
   ```
-
+  After submitting job, the job output will show which server the vnc is running on, then you can access that node with the vnc_port set in the job file. 
+  
+  If you want to use the pycharm in the vnc, you need download the pycharm package from pycharm website, and put the pycharm package under user's home directory /home/zcf, in the vnc, you will be able to see the pycharm package and use it. 
   
