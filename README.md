@@ -22,15 +22,16 @@ The container image is installed with the following components:
   cd singularityvnc
   singularity build centosvnc.sif  centos-xfce-vnc.def
   ```
-  If you want to build the vnc image which can support the gpu
+  If you want to build the vnc container which can support gpu
   ```
   cd singularityvnc
   singularity build centosvncgpu.sif  centos-xfce-vnc-gpu.def
   ```
-  And when you use the gpu image, you should add --nv.
+  And when you use the gpu container, you should add --nv.
   ```
   singularity exec --nv centosvncgpu.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
   ```
+  
 - Singularity shell to check the help
 
   ```
@@ -81,7 +82,8 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
 - Create one slurm job file, such as job.slurm, the below is the content:
  
   The below example assuming the current use is zcf, the home directory of user zcf is /home/zcf/.
- 
+  
+  For CPU VNC:
   ```
   #!/bin/bash
   #SBATCH --job-name='test'
@@ -90,6 +92,18 @@ This will show how to use the container with HPC/AI scheduler, the below will ta
   #SBATCH --mincpus=8
   
   singularity exec /home/zcf/centosvnc.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
+  ```
+  
+  For GPU VNC:
+  ```
+  #!/bin/bash
+  #SBATCH --job-name='test'
+  #SBATCH --partition=compute
+  #SBATCH --nodes=1
+  #SBATCH --mincpus=8
+  #SBATCH --gres=gpu:1
+  
+  singularity exec --nv /home/zcf/centosvncgpu.sif /opt/vnc_startup.sh VNC_PORT:5901 VNC_PW:Passw0rd
   ```
 
 
