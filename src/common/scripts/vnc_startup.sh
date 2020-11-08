@@ -18,7 +18,7 @@ if [[ $1 =~ -h|--help ]]; then
 fi
 
 ## resolve_vnc_connection
-VNC_IP=$(hostname -i)
+VNC_IP=$(hostname)
 
 VNC_PORT=
 VNC_PW=
